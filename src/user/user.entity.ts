@@ -1,0 +1,24 @@
+import { Entity, PrimaryColumn, Column, CreateDateColumn } from 'typeorm';
+
+@Entity('user')
+export class User {
+  @PrimaryColumn({
+    name: 'user_id',
+  })
+  userID!: string;
+
+  @Column({
+    name: 'name',
+  })
+  name!: string;
+
+  @Column({
+    name: 'is_allowed',
+  })
+  isAllowed!: boolean;
+
+  @CreateDateColumn({
+    name: 'created_at',
+  })
+  createdAt!: Date;
+}
