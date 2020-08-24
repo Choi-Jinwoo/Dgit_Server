@@ -40,11 +40,22 @@ export class UserService {
       }, HttpStatus.NOT_FOUND);
     }
 
+
     if (!createUserDTO.name) {
       createUserDTO.name = existUser.name;
     }
 
+
     const user = this.userRepository.create(createUserDTO);
+
+    const contribution = await this.githubLib.getTotalContributionsByUser(user.userID);
+    user.totalContribution = contribution.user.contributionsCollection.contributionCalendar.totalContributions;
+
+
+    await this.userRepository.save(user);
+  }
+
+  async updateUser(user: User): Promise<void> {
     await this.userRepository.save(user);
   }
 }

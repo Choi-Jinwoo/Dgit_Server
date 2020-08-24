@@ -18,6 +18,11 @@ export class User {
   name!: string;
 
   @Column({
+    name: 'total_contribution',
+  })
+  totalContribution!: number;
+
+  @Column({
     name: 'is_allowed',
     default: false,
   })

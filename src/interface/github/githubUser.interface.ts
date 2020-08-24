@@ -6,25 +6,30 @@ export interface IGithubUser {
   avatar_url: string;
 }
 
+
 export interface IGithubContribution {
-  contributionsCollection?: IContributionsCollection;
+  user: {
+    // userID
+    login: string;
+    contributionsCollection: IContributionsCollection;
+  }
 }
 
-export interface IContributionsCollection {
-  contributionCalendar?: IContributionCalendar;
+interface IContributionsCollection {
+  contributionCalendar: IContributionCalendar;
 }
 
-export interface IContributionCalendar {
-  totalContributions?: number;
-  weeks?: IWeeks[];
+interface IContributionCalendar {
+  totalContributions: number;
+  weeks: IWeeks[];
 }
 
-export interface IWeeks {
-  contributionDays?: IContributionDays[];
+interface IWeeks {
+  contributionDays: IContributionDays[];
 }
 
-export interface IContributionDays {
-  contributionCount?: number;
-  date?: string;
-  weekday?: DayOfWeek;
+interface IContributionDays {
+  contributionCount: number;
+  date: string;
+  weekday: DayOfWeek;
 }

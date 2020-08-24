@@ -3,7 +3,7 @@ import { GraphQLClient, gql } from "graphql-request"
 import axios, { AxiosResponse } from 'axios';
 
 import config from 'src/config';
-import { IGithubUser } from 'src/interface/github/githubUser.interface';
+import { IGithubUser, IGithubContribution } from 'src/interface/github/githubUser.interface';
 
 const graphQLClient = new GraphQLClient(config.GITHUB.GQL.URL, {
   headers: {
@@ -12,6 +12,7 @@ const graphQLClient = new GraphQLClient(config.GITHUB.GQL.URL, {
 });
 
 @Injectable()
+// FIXME: 함수 분해 필요(요청, 응답)
 export class GithubLib {
 
   async getGithubUser(userID: string): Promise<IGithubUser | null> {
@@ -27,10 +28,11 @@ export class GithubLib {
     }
   }
 
-  async getContributionByUser(userID: string): Promise<any> {
+  async getContributionByUser(userID: string): Promise<IGithubContribution> {
     const query = gql`
-      query getGithubUserInfo($login: String!) {
+      query getContribution($login: String!) {
       user(login: $login) {
+        login
         contributionsCollection {
           contributionCalendar {
             totalContributions
@@ -55,8 +57,36 @@ export class GithubLib {
       return data;
     } catch (err) {
       // TODO: 에러 핸들링
-      console.log(err);
+      console.error(err);
+      throw err;
     }
   }
 
+  // FIXME: return 타입 변경필요
+  async getTotalContributionsByUser(userID: string): Promise<IGithubContribution> {
+    const query = gql`
+      query getContribution($login: String!) {
+      user(login: $login) {
+        login
+        contributionsCollection {
+          contributionCalendar {
+            totalContributions
+          }
+        }
+      }
+    }
+    `
+
+    try {
+      const data = await graphQLClient.request(query, {
+        login: userID,
+      });
+
+      return data;
+    } catch (err) {
+      // TODO: 에러 핸들링
+      console.error(err);
+      throw err;
+    }
+  }
 }

@@ -29,14 +29,14 @@ export class Contribution {
   date!: Date;
 
   @Column({
-    name: 'week_day',
+    name: 'weekday',
     type: 'enum',
     enum: DayOfWeek,
   })
-  weekDay!: DayOfWeek;
+  weekday!: DayOfWeek;
 
   @RelationId((contribution: Contribution) => contribution.user)
-  userID!: number;
+  userID!: string;
 
   @JoinColumn({ name: 'fk_user_id' })
   @ManyToOne(() => User, {
