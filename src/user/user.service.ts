@@ -7,7 +7,10 @@ import { CreateUserDTO } from './model/createUser.dto';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectRepository(User) private readonly userRepository: UserRepository) { }
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: UserRepository
+  ) { }
 
   async getUser(userID: string): Promise<User | undefined> {
     const user = await this.userRepository.findOne(userID);
