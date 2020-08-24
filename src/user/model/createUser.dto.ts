@@ -1,4 +1,8 @@
+import { IsNotEmpty } from 'class-validator';
+
 export class CreateUserDTO {
-  readonly userID!: string;
-  readonly name!: string;
+  @IsNotEmpty()
+  userID!: string;
+
+  name?: string;
 }

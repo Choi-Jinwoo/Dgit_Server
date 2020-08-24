@@ -1,4 +1,10 @@
-import { ValidationPipe, ArgumentMetadata, HttpException, HttpStatus, Logger } from '@nestjs/common';
+import {
+  ValidationPipe,
+  ArgumentMetadata,
+  HttpException,
+  HttpStatus,
+  Logger,
+} from '@nestjs/common';
 
 export class CustomValidationPipe extends ValidationPipe {
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -6,9 +12,11 @@ export class CustomValidationPipe extends ValidationPipe {
     try {
       return await super.transform(value, metadata);
     } catch (err) {
-      Logger.debug(err, '검증 오류');
+      const errMessage = ''.concat(...err.response.message);
+
+      Logger.debug(errMessage, '검증 오류');
       throw new HttpException({
-        message: '검증 오류',
+        message: `검증 오류, ${errMessage}`,
       }, HttpStatus.BAD_REQUEST);
     }
   }

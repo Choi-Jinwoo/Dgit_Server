@@ -7,7 +7,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 
-import { DayOfWeek } from '../enum/day_of_week.enum';
+import { DayOfWeek } from 'src/enum/day_of_week.enum';
 import { User } from 'src/user/user.entity';
 
 @Entity('contribution')
