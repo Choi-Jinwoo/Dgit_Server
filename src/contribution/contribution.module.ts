@@ -3,20 +3,20 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ContributionController } from './contribution.controller';
 import { ContributionService } from './contribution.service';
-import { UserService } from 'src/user/user.service';
 import { ContributionRepository } from './contribution.repository';
-import { UserRepository } from 'src/user/user.repository';
+import { GithubLib } from 'src/lib/github.lib';
+import { UserModule } from 'src/user/user.module';
 
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([ContributionRepository]),
-    TypeOrmModule.forFeature([UserRepository]),
+    UserModule,
   ],
   controllers: [ContributionController],
   providers: [
     ContributionService,
-    UserService,
+    GithubLib,
   ],
 })
 export class ContributionModule { }

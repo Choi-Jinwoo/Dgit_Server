@@ -4,12 +4,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserRepository } from './user.repository';
 import { User } from './user.entity';
 import { CreateUserDTO } from './model/createUser.dto';
+import { GithubLib } from 'src/lib/github.lib';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
-    private readonly userRepository: UserRepository
+    private readonly userRepository: UserRepository,
+    private readonly githubLib: GithubLib,
   ) { }
 
   async getUser(userID: string): Promise<User | undefined> {
@@ -23,11 +25,23 @@ export class UserService {
   }
 
   async createUser(createUserDTO: CreateUserDTO): Promise<void> {
-    const existUser = await this.getUser(createUserDTO.userID);
-    if (existUser !== undefined) {
+    // DB에 저장된 회원
+    const savedUser = await this.getUser(createUserDTO.userID);
+    if (savedUser !== undefined) {
       throw new HttpException({
         message: '이미 존재하는 회원'
       }, HttpStatus.CONFLICT);
+    }
+
+    const existUser = await this.githubLib.getGithubUser(createUserDTO.userID);
+    if (existUser === null) {
+      throw new HttpException({
+        message: 'Github에 존재하지 않는 회원'
+      }, HttpStatus.NOT_FOUND);
+    }
+
+    if (!createUserDTO.name) {
+      createUserDTO.name = existUser.name;
     }
 
     const user = this.userRepository.create(createUserDTO);
