@@ -1,6 +1,62 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpStatus } from '@nestjs/common';
+import { GraphQLClient, gql } from "graphql-request"
+import axios, { AxiosResponse } from 'axios';
+
+import config from 'src/config';
+import { IGithubUser } from 'src/interface/github/githubUser.interface';
+
+const graphQLClient = new GraphQLClient(config.GITHUB.GQL.URL, {
+  headers: {
+    authorization: `token ${config.GITHUB.TOKEN}`,
+  },
+});
 
 @Injectable()
 export class GithubLib {
+
+  async getGithubUser(userID: string): Promise<IGithubUser | null> {
+    try {
+      const response: AxiosResponse = await axios.get(`${config.GITHUB.REST.URL}/users/${userID}`);
+      return response.data;
+    } catch (err) {
+      if (err.response.status === HttpStatus.NOT_FOUND) {
+        return null;
+      }
+
+      throw err;
+    }
+  }
+
+  async getContributionByUser(userID: string): Promise<any> {
+    const query = gql`
+      query getGithubUserInfo($login: String!) {
+      user(login: $login) {
+        contributionsCollection {
+          contributionCalendar {
+            totalContributions
+            weeks {
+              contributionDays {
+                contributionCount
+                date
+                weekday
+              }
+            }
+          }
+        }
+      }
+    }
+    `
+
+    try {
+      const data = await graphQLClient.request(query, {
+        login: userID,
+      });
+
+      return data;
+    } catch (err) {
+      // TODO: 에러 핸들링
+      console.log(err);
+    }
+  }
 
 }
