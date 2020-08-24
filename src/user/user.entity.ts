@@ -1,5 +1,9 @@
-import { Entity, PrimaryColumn, Column, CreateDateColumn } from 'typeorm';
-import { CreateUserDTO } from './model/createUser.dto';
+import {
+  Entity,
+  PrimaryColumn,
+  Column,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity('user')
 export class User {
