@@ -14,6 +14,11 @@ export class UserService {
     return user;
   }
 
+  async getAllowedUser(): Promise<User[]> {
+    const users = await this.userRepository.findByIsAllowed(true);
+    return users;
+  }
+
   async createUser(createUserDTO: CreateUserDTO): Promise<void> {
     const existUser = await this.getUser(createUserDTO.userID);
     if (existUser !== undefined) {
