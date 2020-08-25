@@ -6,12 +6,14 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { ContributionModule } from './contribution/contribution.module';
 import { ScheduleLib } from './lib/schedule.lib';
+import { TotalTopModule } from './total_top/totalTop.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(),
     UserModule,
     ContributionModule,
+    TotalTopModule,
   ],
   controllers: [AppController],
   providers: [AppService, ScheduleLib],

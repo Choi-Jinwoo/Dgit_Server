@@ -17,4 +17,10 @@ export class UserRepository extends Repository<User> {
       .getMany();
   }
 
+  findGreatestTotalContributions(): Promise<User | undefined> {
+    return this.createQueryBuilder()
+      .orderBy('total_contributions', 'DESC')
+      .addOrderBy('created_at', 'ASC')
+      .getOne();
+  }
 }

@@ -14,9 +14,9 @@ export class UserService {
     private readonly githubLib: GithubLib,
   ) { }
 
-  async getUser(userID: string): Promise<User | undefined> {
+  async getUser(userID: string): Promise<User | null> {
     const user = await this.userRepository.findOne(userID);
-    return user;
+    return user || null;
   }
 
   async getAllowedUser(): Promise<User[]> {
@@ -27,6 +27,11 @@ export class UserService {
   async getAllowedUserOrderByTotalContributions(): Promise<User[]> {
     const users = await this.userRepository.findByIsAllowedOrderByTotalContributionsDesc(true);
     return users;
+  }
+
+  async getGreatestTotalContributionsUser(): Promise<User | null> {
+    const user = await this.userRepository.findGreatestTotalContributions();
+    return user || null;
   }
 
   async createUser(createUserDTO: CreateUserDTO): Promise<void> {
