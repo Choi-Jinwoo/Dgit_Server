@@ -12,15 +12,20 @@ const port = config.APP.PORT || 8080;
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new CustomValidationPipe())
+
   await app.listen(port);
 
   const scheduleLib = app.get(ScheduleLib);
+  app.enableCors({
+    origin: "true",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    allowedHeaders: "Content-Type, Accept",
+  });
 
   /**
    * 1일 1회 실행(daily event)
    */
-  const syncGithubJob = scheduleLib.registerSyncGithubSchedule();
-  const syncTotalTopJob = scheduleLib.registerSyncTotalTop();
+  const dailyJob = scheduleLib.registerDailySchedule();
 
   Logger.log(`Server is running on ${port}`, 'Bootstrap');
 }

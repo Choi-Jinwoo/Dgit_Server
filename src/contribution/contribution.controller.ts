@@ -11,12 +11,12 @@ export class ContributionController {
 
   @Get('total-rank')
   async getTotalRank(): Promise<IResponse> {
-    const userRank = await this.contributionService.getTotalRank();
+    const userTotalRank = await this.contributionService.getTotalRank();
 
     return {
       message: '전체 순위 조회 성공',
       data: {
-        userRank,
+        totalRank: userTotalRank,
       },
     }
   }

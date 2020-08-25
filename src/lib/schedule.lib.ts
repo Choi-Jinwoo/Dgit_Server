@@ -12,28 +12,37 @@ export class ScheduleLib {
     private totalTopService: TotalTopService,
   ) { }
 
-  registerSyncGithubSchedule(): Job {
+  registerDailySchedule(): Job {
     return scheduleJob('1 * * * * *', async () => {
       try {
-        Logger.log('Github 동기화 시작', 'registerSyncGithubSchedule');
-        await this.contributionService.initContribution();
-        await this.contributionService.syncContribution();
-        Logger.log('Github 동기화 종료', 'registerSyncGithubSchedule');
+        Logger.log('Daily 스케쥴 시작', 'registerDailySchedule');
+        await this.syncGithub();
+        await this.syncTotalTop();
+        Logger.log('Daily 스케쥴 종료', 'registerDailySchedule');
       } catch (err) {
-        Logger.error(err, 'registerSyncGithubSchedule');
+        Logger.error(err, 'registerDailySchedule');
       }
     });
   }
 
-  registerSyncTotalTop(): Job {
-    return scheduleJob('1 * * * * *', async () => {
-      try {
-        Logger.log('Total Top 동기화 시작', 'registerSyncTotalTop');
-        this.totalTopService.createTodayTotalTop();
-        Logger.log('Total Top 동기화 종료', 'registerSyncTotalTop');
-      } catch (err) {
-        Logger.error(err, 'registerSyncTotalTop');
-      }
-    });
+  private async syncGithub(): Promise<void> {
+    try {
+      Logger.log('Github 동기화 시작', 'syncGithub');
+      await this.contributionService.initContribution();
+      await this.contributionService.syncContribution();
+      Logger.log('Github 동기화 종료', 'syncGithub');
+    } catch (err) {
+      Logger.error(err, 'syncGithub');
+    }
+  }
+
+  private async syncTotalTop(): Promise<void> {
+    try {
+      Logger.log('Total Top 동기화 시작', 'syncTotalTop');
+      this.totalTopService.createTodayTotalTop();
+      Logger.log('Total Top 동기화 종료', 'syncTotalTop');
+    } catch (err) {
+      Logger.error(err, 'syncTotalTop');
+    }
   }
 }
