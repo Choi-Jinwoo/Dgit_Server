@@ -37,7 +37,7 @@ export class UserService {
   async createUser(createUserDTO: CreateUserDTO): Promise<void> {
     // DB에 저장된 회원
     const savedUser = await this.getUser(createUserDTO.userID);
-    if (savedUser !== undefined) {
+    if (savedUser !== null) {
       throw new HttpException({
         message: '이미 존재하는 회원'
       }, HttpStatus.CONFLICT);

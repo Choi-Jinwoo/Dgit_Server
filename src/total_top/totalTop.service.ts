@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { TotalTop } from './totalTop.entity';
 import { TotalTopRepository } from './totalTop.repository';
 import { UserService } from 'src/user/user.service';
+import { User } from 'src/user/user.entity';
 
 @Injectable()
 export class TotalTopService {
@@ -24,4 +25,36 @@ export class TotalTopService {
     }
   }
 
+  async getCurrentTotalTop(): Promise<User | null> {
+    const totalTop = await this.totalTopRepository.findLatest();
+    if (totalTop !== undefined) {
+      if (totalTop.userID === null) {
+        return null;
+      }
+
+      const user = await this.userService.getUser(totalTop.userID);
+      if (user === null) {
+        return null;
+      }
+
+      return user;
+    }
+    return null;
+  }
+
+  async getTotalTopStreak(): Promise<number> {
+    const entireTotalTop = await this.totalTopRepository.findAllOrderByDateDesc();
+    const currentTotalTop = entireTotalTop[0];
+
+    let streak = 0;
+
+    for (const totalTop of entireTotalTop) {
+      if (totalTop.userID !== currentTotalTop.userID) {
+        break;
+      }
+      streak += 1;
+    }
+
+    return streak;
+  }
 }
