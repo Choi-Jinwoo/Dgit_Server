@@ -20,7 +20,7 @@ async function bootstrap() {
    * 1일 1회 실행(daily event)
    */
   const syncGithubJob = scheduleLib.registerSyncGithubSchedule();
-  const syncTotalTop = scheduleLib.registerSyncTotalTop();
+  const syncTotalTopJob = scheduleLib.registerSyncTotalTop();
 
   Logger.log(`Server is running on ${port}`, 'Bootstrap');
 }
