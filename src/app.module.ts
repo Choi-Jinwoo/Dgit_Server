@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { ContributionModule } from './contribution/contribution.module';
+import { ScheduleLib } from './lib/schedule.lib';
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { ContributionModule } from './contribution/contribution.module';
     ContributionModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ScheduleLib],
 })
 export class AppModule { }

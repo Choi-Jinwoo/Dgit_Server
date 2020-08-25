@@ -13,6 +13,7 @@ import { UserModule } from 'src/user/user.module';
     TypeOrmModule.forFeature([ContributionRepository]),
     UserModule,
   ],
+  exports: [ContributionService],
   controllers: [ContributionController],
   providers: [
     ContributionService,
