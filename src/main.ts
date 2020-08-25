@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
 
@@ -12,7 +13,15 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalPipes(new CustomValidationPipe())
   await app.listen(port);
-  const syncGithubJob = app.get(ScheduleLib).registerSyncGithubSchedule();
+
+  const scheduleLib = app.get(ScheduleLib);
+
+  /**
+   * 1일 1회 실행(daily event)
+   */
+  const syncGithubJob = scheduleLib.registerSyncGithubSchedule();
+  const syncTotalTop = scheduleLib.registerSyncTotalTop();
+
   Logger.log(`Server is running on ${port}`, 'Bootstrap');
 }
 
