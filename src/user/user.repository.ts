@@ -10,4 +10,11 @@ export class UserRepository extends Repository<User> {
       .getMany();
   }
 
+  findByIsAllowedOrderByTotalContributionsDesc(isAllowed: boolean): Promise<User[]> {
+    return this.createQueryBuilder()
+      .where('is_allowed = :isAllowed', { isAllowed })
+      .orderBy('total_contributions', 'DESC')
+      .getMany();
+  }
+
 }

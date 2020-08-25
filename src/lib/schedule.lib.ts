@@ -12,10 +12,14 @@ export class ScheduleLib {
 
   registerSyncGithubSchedule(): Job {
     return scheduleJob('1 * * * * *', async () => {
-      Logger.log('Github 동기화 시작', 'registerSyncGithubSchedule');
-      await this.contributionService.initContribution();
-      await this.contributionService.syncContribution();
-      Logger.log('Github 동기화 종료', 'registerSyncGithubSchedule');
+      try {
+        Logger.log('Github 동기화 시작', 'registerSyncGithubSchedule');
+        await this.contributionService.initContribution();
+        await this.contributionService.syncContribution();
+        Logger.log('Github 동기화 종료', 'registerSyncGithubSchedule');
+      } catch (err) {
+
+      }
     });
   }
 

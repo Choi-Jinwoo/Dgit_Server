@@ -6,6 +6,7 @@ import { ContributionRepository } from './contribution.repository';
 import { UserService } from 'src/user/user.service';
 import { GithubLib } from 'src/lib/github.lib';
 import { IGithubContribution } from 'src/interface/github/githubUser.interface';
+import { User } from 'src/user/user.entity';
 
 @Injectable()
 export class ContributionService {
@@ -16,6 +17,11 @@ export class ContributionService {
     private readonly userService: UserService,
     private readonly githubLib: GithubLib,
   ) { }
+
+  async getTotalRank(): Promise<User[]> {
+    const rankedUsers = await this.userService.getAllowedUserOrderByTotalContributions();
+    return rankedUsers;
+  }
 
   async initContribution(): Promise<void> {
     await this.contributionRepository.deleteAll();
@@ -31,7 +37,8 @@ export class ContributionService {
     await Promise.all(contributions.map((contribution) => {
       const user = users.find((user) => user.userID === contribution.user.login);
       if (user !== undefined) {
-        user.totalContribution = contribution.user.contributionsCollection.contributionCalendar.totalContributions;
+        user.totalContributions = contribution.user.contributionsCollection.contributionCalendar.totalContributions;
+        user.userImage = contribution.user.avatarUrl;
         return this.userService.updateUser(user);
       }
     }));

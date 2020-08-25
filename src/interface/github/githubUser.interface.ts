@@ -9,6 +9,8 @@ export interface IGithubUser {
 
 export interface IGithubContribution {
   user: {
+    // userImage
+    avatarUrl: string;
     // userID
     login: string;
     contributionsCollection: IContributionsCollection;

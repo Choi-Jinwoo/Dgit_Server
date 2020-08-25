@@ -24,6 +24,11 @@ export class UserService {
     return users;
   }
 
+  async getAllowedUserOrderByTotalContributions(): Promise<User[]> {
+    const users = await this.userRepository.findByIsAllowedOrderByTotalContributionsDesc(true);
+    return users;
+  }
+
   async createUser(createUserDTO: CreateUserDTO): Promise<void> {
     // DB에 저장된 회원
     const savedUser = await this.getUser(createUserDTO.userID);
@@ -40,17 +45,17 @@ export class UserService {
       }, HttpStatus.NOT_FOUND);
     }
 
-
     if (!createUserDTO.name) {
       createUserDTO.name = existUser.name;
     }
 
-
     const user = this.userRepository.create(createUserDTO);
 
-    const contribution = await this.githubLib.getTotalContributionsByUser(user.userID);
-    user.totalContribution = contribution.user.contributionsCollection.contributionCalendar.totalContributions;
+    const contribution = await this.githubLib.getGithubUserDetailInfoByUser(user.userID);
+    user.totalContributions = contribution.user.contributionsCollection.contributionCalendar.totalContributions;
 
+    // 프로필 이미지 설정
+    user.userImage = existUser.avatar_url;
 
     await this.userRepository.save(user);
   }

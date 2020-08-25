@@ -33,6 +33,7 @@ export class GithubLib {
       query getContribution($login: String!) {
       user(login: $login) {
         login
+        avatarUrl
         contributionsCollection {
           contributionCalendar {
             totalContributions
@@ -63,11 +64,12 @@ export class GithubLib {
   }
 
   // FIXME: return 타입 변경필요
-  async getTotalContributionsByUser(userID: string): Promise<IGithubContribution> {
+  async getGithubUserDetailInfoByUser(userID: string): Promise<IGithubContribution> {
     const query = gql`
       query getContribution($login: String!) {
       user(login: $login) {
         login
+        avatarUrl
         contributionsCollection {
           contributionCalendar {
             totalContributions

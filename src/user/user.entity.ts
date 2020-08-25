@@ -18,9 +18,15 @@ export class User {
   name!: string;
 
   @Column({
-    name: 'total_contribution',
+    name: 'total_contributions',
   })
-  totalContribution!: number;
+  totalContributions!: number;
+
+  @Column({
+    name: 'user_image',
+    nullable: true,
+  })
+  userImage!: string;
 
   @Column({
     name: 'is_allowed',

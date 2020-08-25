@@ -9,5 +9,6 @@ export class ContributionRepository extends Repository<Contribution> {
     return this.createQueryBuilder()
       .delete()
       .execute();
+
   }
 }
