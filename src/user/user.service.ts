@@ -41,12 +41,12 @@ export class UserService {
     const existUser = await this.githubLib.getGithubUser(createUserDTO.userID);
     if (existUser === null) {
       throw new HttpException({
-        message: 'Github에 존재하지 않는 회원'
+        message: 'Github에 존재하지 않는 회원',
       }, HttpStatus.NOT_FOUND);
     }
 
     if (!createUserDTO.name) {
-      createUserDTO.name = existUser.name;
+      createUserDTO.name = existUser.name || existUser.login;
     }
 
     const user = this.userRepository.create(createUserDTO);
