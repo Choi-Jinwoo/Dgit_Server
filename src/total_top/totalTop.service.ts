@@ -44,12 +44,16 @@ export class TotalTopService {
 
   async getTotalTopStreak(): Promise<number> {
     const entireTotalTop = await this.totalTopRepository.findAllOrderByDateDesc();
-    const currentTotalTop = entireTotalTop[0];
+    const currentTotalTop = await this.userService.getGreatestTotalContributionsUser();
+
+    if (currentTotalTop === null) {
+      return 0;
+    }
 
     let streak = 0;
 
     for (const totalTop of entireTotalTop) {
-      if (totalTop.userID !== currentTotalTop.userID) {
+      if (totalTop.userID === undefined || totalTop.userID !== currentTotalTop.userID) {
         break;
       }
       streak += 1;

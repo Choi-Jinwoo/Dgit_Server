@@ -20,6 +20,7 @@ export class UserRepository extends Repository<User> {
   findGreatestTotalContributions(): Promise<User | undefined> {
     return this.createQueryBuilder()
       .orderBy('total_contributions', 'DESC')
+      .andWhere('is_allowed = true')
       .addOrderBy('created_at', 'ASC')
       .getOne();
   }
