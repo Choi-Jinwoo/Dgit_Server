@@ -4,11 +4,13 @@ export interface IGithubUser {
   login: string;
   name: string;
   avatar_url: string;
+  bio: string | null;
 }
 
 
 export interface IGithubContribution {
   user: {
+    bio: string | null;
     // userImage
     avatarUrl: string;
     // userID

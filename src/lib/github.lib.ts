@@ -34,6 +34,7 @@ export class GithubLib {
       user(login: $login) {
         login
         avatarUrl
+        bio
         contributionsCollection {
           contributionCalendar {
             totalContributions
@@ -70,6 +71,7 @@ export class GithubLib {
       user(login: $login) {
         login
         avatarUrl
+        bio
         contributionsCollection {
           contributionCalendar {
             totalContributions

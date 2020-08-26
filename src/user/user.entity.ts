@@ -4,6 +4,7 @@ import {
   Column,
   CreateDateColumn,
 } from 'typeorm';
+import { type } from 'os';
 
 @Entity('user')
 export class User {
@@ -27,6 +28,13 @@ export class User {
     nullable: true,
   })
   userImage!: string;
+
+  @Column({
+    name: 'bio',
+    nullable: true,
+    type: 'varchar',
+  })
+  bio!: string | null;
 
   @Column({
     name: 'is_allowed',

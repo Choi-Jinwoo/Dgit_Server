@@ -61,6 +61,7 @@ export class UserService {
 
     // 프로필 이미지 설정
     user.userImage = existUser.avatar_url;
+    user.bio = existUser.bio;
 
     await this.userRepository.save(user);
   }

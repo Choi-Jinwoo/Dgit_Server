@@ -39,6 +39,7 @@ export class ContributionService {
       if (user !== undefined) {
         user.totalContributions = contribution.user.contributionsCollection.contributionCalendar.totalContributions;
         user.userImage = contribution.user.avatarUrl;
+        user.bio = contribution.user.bio;
         return this.userService.updateUser(user);
       }
     }));
