@@ -35,6 +35,13 @@ export class UserService {
   }
 
   async createUser(createUserDTO: CreateUserDTO): Promise<void> {
+    const existUser = await this.githubLib.getGithubUser(createUserDTO.userID);
+    if (existUser === null) {
+      throw new HttpException({
+        message: 'Github에 존재하지 않는 회원',
+      }, HttpStatus.NOT_FOUND);
+    }
+
     // DB에 저장된 회원
     const savedUser = await this.getUser(createUserDTO.userID);
     if (savedUser !== null) {
@@ -43,12 +50,6 @@ export class UserService {
       }, HttpStatus.CONFLICT);
     }
 
-    const existUser = await this.githubLib.getGithubUser(createUserDTO.userID);
-    if (existUser === null) {
-      throw new HttpException({
-        message: 'Github에 존재하지 않는 회원',
-      }, HttpStatus.NOT_FOUND);
-    }
 
     if (!createUserDTO.name) {
       createUserDTO.name = existUser.name || existUser.login;
