@@ -60,6 +60,7 @@ export class UserService {
     user.totalContributions = contribution.user.contributionsCollection.contributionCalendar.totalContributions;
 
     // 프로필 이미지 설정
+    user.userImage = existUser.login;
     user.userImage = existUser.avatar_url;
     user.bio = existUser.bio;
 
