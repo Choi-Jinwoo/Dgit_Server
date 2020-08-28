@@ -1,4 +1,4 @@
-import { Injectable, HttpStatus } from '@nestjs/common';
+import { Injectable, HttpStatus, Logger } from '@nestjs/common';
 import { GraphQLClient, gql } from "graphql-request"
 import axios, { AxiosResponse } from 'axios';
 
@@ -58,14 +58,13 @@ export class GithubLib {
 
       return data;
     } catch (err) {
-      // TODO: 에러 핸들링
-      console.error(err);
+      Logger.error(err);
       throw err;
     }
   }
 
   // FIXME: return 타입 변경필요
-  async getGithubUserDetailInfoByUser(userID: string): Promise<IGithubContribution> {
+  async getGithubUserDetailInfoByUser(userID: string): Promise<IGithubContribution | null> {
     const query = gql`
       query getContribution($login: String!) {
       user(login: $login) {
@@ -88,9 +87,9 @@ export class GithubLib {
 
       return data;
     } catch (err) {
-      // TODO: 에러 핸들링
-      console.error(err);
-      throw err;
+      Logger.error(err.message);
+      return null;
+      // throw err;
     }
   }
 }

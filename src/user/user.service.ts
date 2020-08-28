@@ -36,6 +36,7 @@ export class UserService {
 
   async createUser(createUserDTO: CreateUserDTO): Promise<void> {
     const existUser = await this.githubLib.getGithubUser(createUserDTO.userID);
+
     if (existUser === null) {
       throw new HttpException({
         message: 'Github에 존재하지 않는 회원',
@@ -58,6 +59,11 @@ export class UserService {
     const user = this.userRepository.create(createUserDTO);
 
     const contribution = await this.githubLib.getGithubUserDetailInfoByUser(user.userID);
+    if (contribution === null) {
+      throw new HttpException({
+        message: 'Github에 존재하지 않는 회원',
+      }, HttpStatus.NOT_FOUND);
+    }
     user.totalContributions = contribution.user.contributionsCollection.contributionCalendar.totalContributions;
 
     // 프로필 이미지 설정
