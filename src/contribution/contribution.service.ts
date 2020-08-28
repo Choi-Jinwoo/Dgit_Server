@@ -38,11 +38,10 @@ export class ContributionService {
       if (contribution !== null) {
         const user = users.find((user) => user.userID === contribution.user.login);
         if (user !== undefined) {
-          console.log(user.userID);
-
           user.totalContributions = contribution.user.contributionsCollection.contributionCalendar.totalContributions;
           user.userImage = contribution.user.avatarUrl;
           user.bio = contribution.user.bio;
+          console.log(user.userID);
           return this.userService.updateUser(user);
         }
       }
