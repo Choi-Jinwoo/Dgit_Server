@@ -44,7 +44,7 @@ export class UserService {
     }
 
     // DB에 저장된 회원
-    const savedUser = await this.getUser(createUserDTO.userID);
+    const savedUser = await this.getUser(existUser.login);
     if (savedUser !== null) {
       throw new HttpException({
         message: '이미 존재하는 회원'
@@ -66,8 +66,7 @@ export class UserService {
     }
     user.totalContributions = contribution.user.contributionsCollection.contributionCalendar.totalContributions;
 
-    // 프로필 이미지 설정
-    user.userImage = existUser.login;
+    user.userID = existUser.login;
     user.userImage = existUser.avatar_url;
     user.bio = existUser.bio;
 
