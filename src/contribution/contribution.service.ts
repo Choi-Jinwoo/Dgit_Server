@@ -41,7 +41,6 @@ export class ContributionService {
           user.totalContributions = contribution.user.contributionsCollection.contributionCalendar.totalContributions;
           user.userImage = contribution.user.avatarUrl;
           user.bio = contribution.user.bio;
-          console.log(user.userID);
           return this.userService.updateUser(user);
         }
       }
