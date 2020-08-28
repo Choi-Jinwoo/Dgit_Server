@@ -28,7 +28,7 @@ export class GithubLib {
     }
   }
 
-  async getContributionByUser(userID: string): Promise<IGithubContribution> {
+  async getContributionByUser(userID: string): Promise<IGithubContribution | null> {
     const query = gql`
       query getContribution($login: String!) {
       user(login: $login) {
@@ -59,7 +59,7 @@ export class GithubLib {
       return data;
     } catch (err) {
       Logger.error(err);
-      throw err;
+      return null;
     }
   }
 
