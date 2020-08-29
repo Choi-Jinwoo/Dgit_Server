@@ -14,6 +14,18 @@ export class ScheduleLib {
     private weekTopService: WeekTopService,
   ) { }
 
+  registeNoonSchedule(): Job {
+    return scheduleJob('0 0 12 * * *', async () => {
+      try {
+        Logger.log('Noon 스케쥴 시작', 'registeNoonSchedule');
+        await this.syncGithub();
+        Logger.log('Noon 스케쥴 종료', 'registeNoonSchedule');
+      } catch (err) {
+        Logger.error(err, 'registeNoonSchedule');
+      }
+    });
+  }
+
   registerDailySchedule(): Job {
     return scheduleJob('0 0 0 * * 0-5', async () => {
       try {
