@@ -24,6 +24,7 @@ async function bootstrap() {
    * 1일 1회 실행(daily event)
    */
   const dailyJob = scheduleLib.registerDailySchedule();
+  const weeklyJob = scheduleLib.registerWeeklySchedule();
 
   Logger.log(`Server is running on ${port}`, 'Bootstrap');
 }

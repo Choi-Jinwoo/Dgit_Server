@@ -4,11 +4,9 @@ import { WeekTop } from './weekTop.entity';
 @EntityRepository(WeekTop)
 export class WeekTopRepository extends Repository<WeekTop> {
 
-  findOrderByYearMonthWeekNumber(): Promise<WeekTop[]> {
+  findOrderByCreatedAtDesc(): Promise<WeekTop[]> {
     return this.createQueryBuilder()
-      .orderBy('year', 'DESC')
-      .addOrderBy('month', 'DESC')
-      .addOrderBy('week_number', 'DESC')
+      .orderBy('created_at', 'DESC')
       .getMany();
   }
 

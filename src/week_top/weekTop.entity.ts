@@ -5,6 +5,7 @@ import {
   JoinColumn,
   ManyToOne,
   Column,
+  CreateDateColumn,
 } from 'typeorm';
 import { User } from 'src/user/user.entity';
 
@@ -25,18 +26,9 @@ export class WeekTop {
   })
   user!: User | null;
 
-  @Column({
-    name: 'year'
-  })
-  year!: number;
+  @Column({ name: 'week_contributions' })
+  weekContributions!: number;
 
-  @Column({
-    name: 'month'
-  })
-  month!: number;
-
-  @Column({
-    name: 'week_number'
-  })
-  weekNumber!: number;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt!: Date;
 }
