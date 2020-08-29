@@ -20,9 +20,8 @@ async function bootstrap() {
 
   const scheduleLib = app.get(ScheduleLib);
 
-  /**
-   * 1일 1회 실행(daily event)
-   */
+  // 스케쥴
+  const noonJob = scheduleLib.registeNoonSchedule();
   const dailyJob = scheduleLib.registerDailySchedule();
   const weeklyJob = scheduleLib.registerWeeklySchedule();
 
