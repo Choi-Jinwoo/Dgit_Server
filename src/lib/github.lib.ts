@@ -12,7 +12,6 @@ const graphQLClient = new GraphQLClient(config.GITHUB.GQL.URL, {
 });
 
 @Injectable()
-// FIXME: 함수 분해 필요(요청, 응답)
 export class GithubLib {
 
   async getGithubUser(userID: string): Promise<IGithubUser | null> {
@@ -63,7 +62,6 @@ export class GithubLib {
     }
   }
 
-  // FIXME: return 타입 변경필요
   async getGithubUserDetailInfoByUser(userID: string): Promise<IGithubContribution | null> {
     const query = gql`
       query getContribution($login: String!) {
@@ -89,7 +87,6 @@ export class GithubLib {
     } catch (err) {
       Logger.error(err.message);
       return null;
-      // throw err;
     }
   }
 }

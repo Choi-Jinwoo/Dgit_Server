@@ -20,4 +20,16 @@ export class ContributionController {
       },
     }
   }
+
+  @Get('week-rank')
+  async getWeekRank(): Promise<IResponse> {
+    const userWeekRank = await this.contributionService.getWeekRank();
+
+    return {
+      message: '주간 순위 조회 성공',
+      data: {
+        weekRank: userWeekRank,
+      },
+    }
+  }
 }
