@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { ContributionModule } from './contribution/contribution.module';
 import { ScheduleLib } from './lib/schedule.lib';
 import { TotalTopModule } from './total_top/totalTop.module';
+import { WeekTopModule } from './week_top/weekTop.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { TotalTopModule } from './total_top/totalTop.module';
     UserModule,
     ContributionModule,
     TotalTopModule,
+    WeekTopModule,
   ],
   controllers: [AppController],
   providers: [AppService, ScheduleLib],
