@@ -28,7 +28,7 @@ export class ScheduleLib {
   }
 
   registerWeeklySchedule(): Job {
-    return scheduleJob('0 0 0 * * 6', async () => {
+    return scheduleJob('0 0 0 * * 0', async () => {
       try {
         Logger.log('Weekly 스케쥴 시작', 'registerWeeklySchedule');
         await this.syncGithub();
