@@ -7,6 +7,8 @@ import { UserService } from 'src/user/user.service';
 import { GithubLib } from 'src/lib/github.lib';
 import { IGithubContribution } from 'src/interface/github/githubUser.interface';
 import { User } from 'src/user/user.entity';
+import { getWeekSunday, getWeekSaturday } from 'src/lib/util/date.util';
+import { IWeekContributionUser } from 'src/interface/github/IWeekContributionUser';
 
 @Injectable()
 export class ContributionService {
@@ -21,6 +23,37 @@ export class ContributionService {
   async getTotalRank(): Promise<User[]> {
     const rankedUsers = await this.userService.getAllowedUserOrderByTotalContributions();
     return rankedUsers;
+  }
+
+  async getWeekRank(): Promise<IWeekContributionUser[]> {
+    const users = await this.userService.getAllowedUser();
+    const today = new Date();
+    const sundayDate = getWeekSunday(today);
+    const saturdayDate = getWeekSaturday(today);
+
+    const usersContribution: IWeekContributionUser[] = [];
+
+    for (const user of users) {
+      const userContributions = await this.contributionRepository.
+        findByUserAndStartDateAndEndDate(user.userID, sundayDate, saturdayDate);
+
+      let weekContributionCount = 0;
+
+      userContributions.forEach((userContribution) => {
+        weekContributionCount += userContribution.contributionCount;
+      });
+
+      usersContribution.push({
+        weekContributions: weekContributionCount,
+        ...user,
+      });
+    }
+
+    usersContribution.sort((userA, userB) => {
+      return userB.weekContributions - userA.weekContributions;
+    });
+
+    return usersContribution;
   }
 
   async initContribution(): Promise<void> {
