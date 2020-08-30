@@ -4,10 +4,12 @@ import { WeekTopRepository } from './weekTop.repository';
 import { WeekTopService } from './weekTop.service';
 import { WeekTopController } from './weekTop.controller';
 import { ContributionModule } from 'src/contribution/contribution.module';
+import { UserModule } from 'src/user/user.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([WeekTopRepository]),
+    UserModule,
     ContributionModule,
   ],
   exports: [WeekTopService],

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { WeekTop } from './weekTop.entity';
 import { WeekTopRepository } from './weekTop.repository';
 import { ContributionService } from 'src/contribution/contribution.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class WeekTopService {
@@ -11,10 +12,18 @@ export class WeekTopService {
     @InjectRepository(WeekTop)
     private readonly weekTopRepository: WeekTopRepository,
     private readonly contributionService: ContributionService,
+    private readonly userService: UserService,
   ) { }
 
   async getHistory(): Promise<WeekTop[]> {
     const weekTop = await this.weekTopRepository.findOrderByCreatedAtDesc();
+
+    for (const weekTopItem of weekTop) {
+      if (weekTopItem.userID !== undefined && weekTopItem.userID !== null) {
+        weekTopItem.user = await this.userService.getUser(weekTopItem.userID);
+      }
+    }
+
     return weekTop;
   }
 
