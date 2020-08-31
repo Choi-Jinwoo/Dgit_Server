@@ -14,14 +14,14 @@ export class ScheduleLib {
     private weekTopService: WeekTopService,
   ) { }
 
-  registeNoonSchedule(): Job {
-    return scheduleJob('0 0 12 * * *', async () => {
+  registerHourSchedule(): Job {
+    return scheduleJob('0 0 8,10,12,14,16,18,20 * * *', async () => {
       try {
-        Logger.log('Noon 스케쥴 시작', 'registeNoonSchedule');
+        Logger.log('Hour 스케쥴 시작', 'registerHourSchedule');
         await this.syncGithub();
-        Logger.log('Noon 스케쥴 종료', 'registeNoonSchedule');
+        Logger.log('Hour 스케쥴 종료', 'registerHourSchedule');
       } catch (err) {
-        Logger.error(err, 'registeNoonSchedule');
+        Logger.error(err, 'registerHourSchedule');
       }
     });
   }
