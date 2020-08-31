@@ -21,7 +21,7 @@ async function bootstrap() {
   const scheduleLib = app.get(ScheduleLib);
 
   // 스케쥴
-  const noonJob = scheduleLib.registeNoonSchedule();
+  const noonJob = scheduleLib.registerHourSchedule();
   const dailyJob = scheduleLib.registerDailySchedule();
   const weeklyJob = scheduleLib.registerWeeklySchedule();
 

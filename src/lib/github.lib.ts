@@ -47,8 +47,7 @@ export class GithubLib {
           }
         }
       }
-    }
-    `
+    }`;
 
     try {
       const data = await graphQLClient.request(query, {
@@ -75,8 +74,7 @@ export class GithubLib {
           }
         }
       }
-    }
-    `
+    }`;
 
     try {
       const data = await graphQLClient.request(query, {
@@ -85,7 +83,7 @@ export class GithubLib {
 
       return data;
     } catch (err) {
-      Logger.error(err.message);
+      Logger.error(err);
       return null;
     }
   }
