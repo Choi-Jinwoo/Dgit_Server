@@ -1,6 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
 import { ContributionService } from './contribution.service';
-import { User } from 'src/user/user.entity';
 import { IResponse } from 'src/interface/response.interface';
 
 @Controller('contribution')
