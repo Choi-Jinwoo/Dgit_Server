@@ -1,6 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
 import { ContributionService } from './contribution.service';
-import { User } from 'src/user/user.entity';
 import { IResponse } from 'src/interface/response.interface';
 
 @Controller('contribution')
@@ -23,7 +22,8 @@ export class ContributionController {
 
   @Get('week-rank')
   async getWeekRank(): Promise<IResponse> {
-    const userWeekRank = await this.contributionService.getWeekRank();
+    const today = new Date();
+    const userWeekRank = await this.contributionService.getWeekRank(today);
 
     return {
       message: '주간 순위 조회 성공',
