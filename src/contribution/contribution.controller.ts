@@ -23,7 +23,8 @@ export class ContributionController {
 
   @Get('week-rank')
   async getWeekRank(): Promise<IResponse> {
-    const userWeekRank = await this.contributionService.getWeekRank();
+    const today = new Date();
+    const userWeekRank = await this.contributionService.getWeekRank(today);
 
     return {
       message: '주간 순위 조회 성공',

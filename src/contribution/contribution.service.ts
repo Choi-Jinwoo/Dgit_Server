@@ -25,11 +25,10 @@ export class ContributionService {
     return rankedUsers;
   }
 
-  async getWeekRank(): Promise<IWeekContributionUser[]> {
+  async getWeekRank(date: Date): Promise<IWeekContributionUser[]> {
     const users = await this.userService.getAllowedUser();
-    const today = new Date();
-    const sundayDate = getWeekSunday(today);
-    const saturdayDate = getWeekSaturday(today);
+    const sundayDate = getWeekSunday(date);
+    const saturdayDate = getWeekSaturday(date);
 
     const usersContribution: IWeekContributionUser[] = [];
 
