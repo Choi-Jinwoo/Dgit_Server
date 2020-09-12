@@ -29,7 +29,7 @@ export class WeekTopService {
 
   async createWeekTop(): Promise<void> {
     const yesterday = new Date();
-    yesterday.setDate(-1);
+    yesterday.setDate(yesterday.getDate() - 1);
 
     const weekRank = await this.contributionService.getWeekRank(yesterday);
     const weekTopUser = weekRank[0];
